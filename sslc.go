@@ -91,7 +91,7 @@ func (d *Dependency) GetCommit() (string, error) {
 func NewDependency(s string) (Dependency, error) {
 	dep := Dependency{path: s}
 	if err := dep.parse(); err != nil {
-		return Dependency{}, fmt.Errorf("path '%s' is not valid.")
+		return Dependency{}, err
 	}
 	return dep, nil
 }

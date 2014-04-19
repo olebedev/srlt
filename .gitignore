@@ -1,3 +1,5 @@
 sslc
+bin/
+pkg/
+src/
 build/
-sslc.json

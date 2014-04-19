@@ -10,7 +10,7 @@ import (
 )
 
 // Save all dependency to file
-func save(args ...string) error {
+func snapshot(args ...string) (map[string]Dependency, error) {
 	// search repositories
 	force, _ := conf.Bool("force")
 	basepath, _ := conf.String("basepath")
@@ -41,17 +41,17 @@ func save(args ...string) error {
 	})
 
 	if err != nil {
-		return err
+		return deps, err
 	}
 
 	buffer, _ := json.MarshalIndent(deps, "", "  ")
 
 	// save to the file
 	err = ioutil.WriteFile(file, buffer, 0644)
-	return nil
+	return deps, err
 }
 
-func install(args ...string) error {
+func restore(args ...string) error {
 	// search repositories
 	basepath, _ := conf.String("basepath")
 	fmt.Printf("start to install into '%s' directory\n", basepath)

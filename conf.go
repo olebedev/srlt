@@ -1,9 +1,7 @@
 package main
 
 import (
-	"flag"
 	"github.com/olebedev/config"
-	"os"
 	"path"
 	"path/filepath"
 )
@@ -15,12 +13,7 @@ force: false
 file: sslc.json
 `)
 
-func init() {
-	conf.Env().Flag()
-	if flag.NArg() == 0 {
-		usage()
-		os.Exit(0)
-	}
+func initConf() {
 	// basepath
 	bp, _ := conf.String("basepath")
 	if bp == "$GOPATH/src" {

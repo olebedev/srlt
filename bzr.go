@@ -57,7 +57,7 @@ func (d *Dependency) bzrCheckout() error {
 
 func (d *Dependency) bzrPull() error {
 	basepath, _ := conf.String("basepath")
-	cmd := exec.Command("bzr", "pull", d.Remote, d.Name)
+	cmd := exec.Command("bzr", "pull")
 	cmd.Dir = path.Join(basepath, d.Name)
 	_, err := cmd.Output()
 	return err
