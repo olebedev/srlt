@@ -63,9 +63,9 @@ var _ = Describe("Dependency", func() {
 				IsValid bool
 			}{
 				{Dependency{Name: "", Type: "no valid", Commit: "", Remote: ""}, false},
-				{Dependency{Name: "sslc", Type: "git", Commit: "527b9bb611009a567eaf0f47c6b59c301a71e20b", Remote: "git@github.com:olebedev/sslc.git"}, true},
-				{Dependency{Name: "rest", Type: "hg", Commit: "", Remote: "git@github.com:olebedev/sslc.git"}, false},
-				{Dependency{Name: "snake_case", Type: "bzr", Commit: "", Remote: "launchpad.net/~niemeyer/goyaml/beta"}, false},
+				{Dependency{Name: "srlt", Type: "git", Commit: "527b9bb611009a567eaf0f47c6b59c301a71e20b", Remote: "git@github.com:olebedev/srlt.git"}, true},
+				{Dependency{Name: "rest", Type: "hg", Commit: "", Remote: "git@github.com:olebedev/srlt.git"}, false},
+				{Dependency{Name: "snake_case", Type: "bzr", Commit: "5", Remote: ""}, false},
 				{Dependency{Name: "launchpad.net/~niemeyer/goyaml/beta", Type: "bzr", Commit: "4", Remote: "launchpad.net/~niemeyer/goyaml/beta"}, true},
 			}
 

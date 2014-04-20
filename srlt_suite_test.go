@@ -15,10 +15,10 @@ var deps = make(map[string]Dependency)
 
 func TestBooks(t *testing.T) {
 	RegisterFailHandler(Fail)
-	tmpDir, _ := ioutil.TempDir(os.TempDir(), "sslc")
+	tmpDir, _ := ioutil.TempDir(os.TempDir(), "srlt")
 	os.Setenv("BASEPATH", tmpDir)
 	wd, _ := os.Getwd()
-	os.Setenv("FILE", path.Join(wd, "sslc_test.json"))
+	os.Setenv("FILE", path.Join(wd, "srlt_test.json"))
 	conf.Env()
 	initConf()
 

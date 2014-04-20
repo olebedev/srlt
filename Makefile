@@ -1,4 +1,4 @@
-P       = sslc
+P       = srlt
 SOURCE  = $(wildcard *.go)
 TAG     = $(shell git describe --tags)
 GOBUILD = go build -ldflags '-w'

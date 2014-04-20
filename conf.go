@@ -10,7 +10,7 @@ var conf, _ = config.ParseYaml(`
 gopath: $GOPATH
 basepath: $GOPATH/src
 force: false
-file: sslc.json
+file: srlt.json
 `)
 
 func initConf() {
