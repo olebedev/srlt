@@ -15,7 +15,7 @@ func snapshot(args ...string) (map[string]Dependency, error) {
 	force, _ := conf.Bool("force")
 	basepath, _ := conf.String("basepath")
 	basepath += string(os.PathSeparator)
-	log.Printf("Lookup at '%s'...\n", basepath)
+	log.Printf("Lookup at %s...\n", basepath)
 
 	deps := make(map[string]Dependency)
 
@@ -24,7 +24,7 @@ func snapshot(args ...string) (map[string]Dependency, error) {
 	if buffer, err := ioutil.ReadFile(file); err == nil {
 		json.Unmarshal(buffer, &deps)
 	} else {
-		log.Printf("Creating file '%s'...\n", file)
+		log.Printf("Creating file %s ...\n", file)
 	}
 
 	err := filepath.Walk(basepath, func(p string, f os.FileInfo, err error) error {
@@ -60,7 +60,7 @@ func restore(args ...string) error {
 	if buffer, err := ioutil.ReadFile(file); err == nil {
 		json.Unmarshal(buffer, &deps)
 	} else {
-		return fmt.Errorf("file '%s' not found\n", file)
+		return fmt.Errorf("file %s not found\n", file)
 	}
 
 	var wg sync.WaitGroup

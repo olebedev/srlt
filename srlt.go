@@ -24,7 +24,7 @@ func (d *Dependency) parse() error {
 	}
 
 	if !matched {
-		return fmt.Errorf("path '%s' is not repository.", d.path)
+		return fmt.Errorf("path %s is not repository.", d.path)
 	}
 
 	// set values
@@ -64,7 +64,7 @@ func (d *Dependency) GetRemote() (string, error) {
 	case "svn":
 		return d.svnGetRemote()
 	default:
-		return d.Remote, fmt.Errorf("VCS of type '%s' not found.", d.Type)
+		return d.Remote, fmt.Errorf("VCS of type %s not found.", d.Type)
 	}
 }
 
@@ -82,7 +82,7 @@ func (d *Dependency) GetCommit() (string, error) {
 	case "svn":
 		return d.svnGetCommit()
 	default:
-		return d.Remote, fmt.Errorf("VCS of type '%s' not found.", d.Type)
+		return d.Remote, fmt.Errorf("VCS of type %s not found.", d.Type)
 	}
 }
 
@@ -96,19 +96,19 @@ func NewDependency(s string) (Dependency, error) {
 
 func (d *Dependency) Validate() error {
 	if len(d.Name) <= 0 {
-		return fmt.Errorf("Name '%s' is not valid", d.Name)
+		return fmt.Errorf("Name %s is not valid", d.Name)
 	}
 
 	if len(d.Type) < 2 {
-		return fmt.Errorf("Type '%s' is not valid", d.Type)
+		return fmt.Errorf("Type %s is not valid", d.Type)
 	}
 
 	if len(d.Remote) <= 0 {
-		return fmt.Errorf("Remote '%s' is not valid", d.Remote)
+		return fmt.Errorf("Remote %s is not valid", d.Remote)
 	}
 
 	if len(d.Commit) <= 0 {
-		return fmt.Errorf("Commit '%s' is not valid", d.Commit)
+		return fmt.Errorf("Commit %s is not valid", d.Commit)
 	}
 	return nil
 }
@@ -132,7 +132,7 @@ func (d *Dependency) Pull() error {
 	case "svn":
 		return d.svnPull()
 	default:
-		return fmt.Errorf("VCS of type '%s' not found.", d.Type)
+		return fmt.Errorf("VCS of type %s not found.", d.Type)
 	}
 }
 
@@ -156,12 +156,12 @@ func (d *Dependency) Clone() error {
 	case "svn":
 		return d.svnClone()
 	default:
-		return fmt.Errorf("VCS of type '%s' not found.", d.Type)
+		return fmt.Errorf("VCS of type %s not found.", d.Type)
 	}
 }
 
 func (d *Dependency) Checkout() error {
-	log.Printf("Setting '%s' to version '%s'\n", d.Name, d.Commit)
+	log.Printf("Setting %s to version %s\n", d.Name, d.Commit)
 	switch d.Type {
 	case "git":
 		return d.gitCheckout()
@@ -172,7 +172,7 @@ func (d *Dependency) Checkout() error {
 	case "svn":
 		return d.svnCheckout()
 	default:
-		return fmt.Errorf("VCS of type '%s' not found.", d.Type)
+		return fmt.Errorf("VCS of type %s not found.", d.Type)
 	}
 }
 

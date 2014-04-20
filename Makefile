@@ -19,11 +19,13 @@ osx = darwin
 build/$P-$(TAG)-64-%: $(SOURCE)
 	@mkdir -p $(@D)
 	CGO_ENABLED=0 GOOS=$(firstword $($*) $*) GOARCH=amd64 $(GOBUILD) -o $@
+	@cd $(@D) && tar cvzf $(@F).tar.gz $(@F)
 
 build/$P-$(TAG)-32-%: $(SOURCE)
 	@mkdir -p $(@D)
 	CGO_ENABLED=0 GOOS=$(firstword $($*) $*) GOARCH=386 $(GOBUILD) -o $@
+	@cd $(@D) && tar cvzf $(@F).tar.gz $(@F)
 
-build/$P-%: build/cdn-$(TAG)-%
+build/$P-%: build/$P-$(TAG)-%
 	@mkdir -p $(@D)
 	cd $(@D) && ln -sf $(<F) $(@F)
