@@ -15,7 +15,7 @@ func snapshot(args ...string) (map[string]Dependency, error) {
 	force, _ := conf.Bool("force")
 	basepath, _ := conf.String("basepath")
 	basepath += string(os.PathSeparator)
-	fmt.Println("searching at: ", basepath+"...")
+	log.Printf("Lookup at '%s'...\n", basepath)
 
 	deps := make(map[string]Dependency)
 
@@ -24,7 +24,7 @@ func snapshot(args ...string) (map[string]Dependency, error) {
 	if buffer, err := ioutil.ReadFile(file); err == nil {
 		json.Unmarshal(buffer, &deps)
 	} else {
-		fmt.Printf("file '%s' created \n", file)
+		log.Printf("Creating file '%s'...\n", file)
 	}
 
 	err := filepath.Walk(basepath, func(p string, f os.FileInfo, err error) error {
@@ -53,8 +53,6 @@ func snapshot(args ...string) (map[string]Dependency, error) {
 
 func restore(args ...string) error {
 	// search repositories
-	basepath, _ := conf.String("basepath")
-	fmt.Printf("start to install into '%s' directory\n", basepath)
 	deps := make(map[string]Dependency)
 	file, _ := conf.String("file")
 

@@ -39,13 +39,11 @@ func (d *Dependency) parse() error {
 
 	_, err = d.GetRemote()
 	if err != nil {
-		fmt.Println("remote err", err)
 		return err
 	}
 
 	_, err = d.GetCommit()
 	if err != nil {
-		fmt.Println("commit err", err)
 		return err
 	}
 	return nil
@@ -123,7 +121,7 @@ func (d *Dependency) Exists() bool {
 }
 
 func (d *Dependency) Pull() error {
-	fmt.Printf("pull %s\n", d.Name)
+	log.Printf("Pulling %s\n", d.Name)
 	switch d.Type {
 	case "git":
 		return d.gitPull()
@@ -139,13 +137,12 @@ func (d *Dependency) Pull() error {
 }
 
 func (d *Dependency) Clone() error {
-	fmt.Printf("clone %s\n", d.Name)
+	log.Printf("Getting %s\n", d.Name)
 
 	// mkdir all
 	basepath, _ := conf.String("basepath")
 	err := os.MkdirAll(filepath.Dir(path.Join(basepath, d.Name)), 0777)
 	if err != nil {
-		fmt.Println("clone error:", err)
 		return err
 	}
 
@@ -164,7 +161,7 @@ func (d *Dependency) Clone() error {
 }
 
 func (d *Dependency) Checkout() error {
-	fmt.Printf("checkout %s\n", d.Name)
+	log.Printf("Setting '%s' to version '%s'\n", d.Name, d.Commit)
 	switch d.Type {
 	case "git":
 		return d.gitCheckout()
