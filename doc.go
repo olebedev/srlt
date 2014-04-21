@@ -11,7 +11,7 @@ Usage of srlt:
   srlt [options] restore  : restore state from file
 
 Options:
-  --basepath="pwd"        : path to scan and restore it
-  --file="srlt.json"      : filename for read and write it
+  --basepath="pwd"        : path to scan and restore
+  --file="srlt.json"      : filename for read and write
 `)
 }
