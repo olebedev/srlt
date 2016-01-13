@@ -19,13 +19,13 @@ This is a common situation that storage and distribution of external artifacts f
 ### Installation
 
 If you have Golang at your system, you may install `srlt` by `go get` tool:   
-```bash
+```
 $ go get github.com/olebedev/srlt
 ```
 
 Or you may download already compiled binary file:
 
-```bash
+```
 $ # osx example
 $ curl -L https://github.com/olebedev/srlt/releases/download/v1.0.0/srlt-v1.0.0-64-osx.tar.gz | tar xvz
 ```
@@ -38,7 +38,7 @@ It isn't neccesary to have Golang in your system and not neccesary to know, what
 It have just three commands: `snapshot`, `restore` and `exec`.   
 First of all, type it:
 
-```bash
+```
 $ srlt
 NAME:
    srlt - save and restore repositories at given path
@@ -67,13 +67,13 @@ As you can see, there is no way to get confused.
 
 To take a snapshot just type it:
 
-```bash
+```
 $ srlt shapshot
 ```
 
 This commad save metadata about state of your current work directory to the `./srlt.yaml` file. It's easy to change this behavior using `path` flag:
 
-```bash
+```
 $ # for current directory
 $ srlt shapshot
 $ # or for golang projects
@@ -83,7 +83,7 @@ Srlt will save base path into the file and read them next time. No need to speci
 
 To restore type it:
 
-```bash
+```
 $ srlt restore
 ```
 
@@ -91,7 +91,7 @@ This will restore the state of repositories exactly as it was before. You will s
 
 As additional functioanality there is `exec` command that allow us to execute _bash_ one-liner with dependency context and templating. For example:
 
-```bash
+```
 $ srlt exec go install {{.Name}}
 $ # also available .Type, .Remote, .Commit
 ```
