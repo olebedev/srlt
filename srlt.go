@@ -1,20 +1,34 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"os"
+	"os/exec"
 	"path"
 	"path/filepath"
 	"regexp"
 	"strings"
+	"text/template"
 )
 
+type Srlt struct {
+	verbose bool
+
+	Base string                 `yaml:"base"`
+	Deps map[string]*Dependency `yaml:"dependencies"`
+}
+
 type Dependency struct {
-	path   string `json:"-"`              // raw string `json:-,omitempty` with gopath
-	Type   string `json:"type,omitempty"` // git, hg, bzr, svn
-	Name   string `json:"name,omitempty"` // package name
-	Remote string `json:"remote,omitempty"`
-	Commit string `json:"commit,omitempty"` // commit hash
+	path     string
+	base     string
+	verbose  bool
+	execTmpl string
+
+	Type   string `yaml:"type,omitempty"`
+	Name   string `yaml:"name,omitempty"`
+	Remote string `yaml:"remote,omitempty"`
+	Commit string `yaml:"commit,omitempty"`
 }
 
 func (d *Dependency) parse() error {
@@ -24,18 +38,12 @@ func (d *Dependency) parse() error {
 	}
 
 	if !matched {
-		return fmt.Errorf("path %s is not repository.", d.path)
+		return fmt.Errorf("path %s is not a repository", d.path)
 	}
 
-	// set values
 	d.Type = d.path[strings.LastIndex(d.path, ".")+1:]
-	basepath, _ := conf.String("basepath")
-	d.Name = strings.TrimPrefix(d.path[:strings.LastIndex(d.path, ".")-1], basepath)[1:]
-
-	// ignore it if local
-	// if strings.Index(d.Name, string(os.pathSeparator)) == 0 {
-	// 	return fmt.Errorf("'%s' is not external repository.", d.Name)
-	// }
+	d.Name = strings.TrimPrefix(d.path[:strings.LastIndex(d.path, ".")-1], d.base)
+	d.Name = strings.TrimPrefix(d.Name, string(os.PathSeparator))
 
 	_, err = d.GetRemote()
 	if err != nil {
@@ -86,8 +94,8 @@ func (d *Dependency) GetCommit() (string, error) {
 	}
 }
 
-func NewDependency(s string) (Dependency, error) {
-	dep := Dependency{path: s}
+func NewDependency(s, base string) (Dependency, error) {
+	dep := Dependency{path: s, base: base}
 	if err := dep.parse(); err != nil {
 		return Dependency{}, err
 	}
@@ -114,14 +122,15 @@ func (d *Dependency) Validate() error {
 }
 
 func (d *Dependency) Exists() bool {
-	basepath, _ := conf.String("basepath")
-	filename := path.Join(basepath, d.Name, "."+d.Type)
+	filename := path.Join(d.base, d.Name, "."+d.Type)
 	_, err := os.Stat(filename)
 	return err == nil
 }
 
 func (d *Dependency) Pull() error {
-	log.Printf("Pulling %s\n", d.Name)
+	if d.verbose {
+		log("pull: %s\n", d.Name)
+	}
 	switch d.Type {
 	case "git":
 		return d.gitPull()
@@ -137,11 +146,11 @@ func (d *Dependency) Pull() error {
 }
 
 func (d *Dependency) Clone() error {
-	log.Printf("Getting %s\n", d.Name)
+	if d.verbose {
+		log("clone: %s\n", d.Name)
+	}
 
-	// mkdir all
-	basepath, _ := conf.String("basepath")
-	err := os.MkdirAll(filepath.Dir(path.Join(basepath, d.Name)), 0777)
+	err := os.MkdirAll(filepath.Dir(path.Join(d.base, d.Name)), 0777)
 	if err != nil {
 		return err
 	}
@@ -161,7 +170,9 @@ func (d *Dependency) Clone() error {
 }
 
 func (d *Dependency) Checkout() error {
-	log.Printf("Setting %s to version %s\n", d.Name, d.Commit)
+	if d.verbose {
+		log("checkout: %s@%s\n", d.Name, d.Commit)
+	}
 	switch d.Type {
 	case "git":
 		return d.gitCheckout()
@@ -192,4 +203,24 @@ func (d *Dependency) Install() error {
 	}
 
 	return d.Checkout()
+}
+
+func (d *Dependency) Exec(command string) error {
+
+	t := template.Must(template.New("command").Parse(command))
+	var doc bytes.Buffer
+	t.Execute(&doc, d)
+
+	command = doc.String()
+
+	if d.verbose {
+		log("exec: %s\n", command)
+	}
+
+	cmd := exec.Command("bash", "-c", command)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	cmd.Stdin = os.Stdin
+	cmd.Dir = d.base
+	return cmd.Run()
 }

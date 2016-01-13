@@ -9,25 +9,25 @@ var _ = Describe("Dependency", func() {
 
 	Describe("Restore", func() {
 		It("Exists before", func() {
-			for _, dep := range deps {
+			for _, dep := range srlt.Deps {
 				Ω(dep.Exists()).Should(BeFalse())
 			}
 		})
 
 		It("Clone", func() {
-			for _, dep := range deps {
+			for _, dep := range srlt.Deps {
 				Ω(dep.Clone()).Should(BeNil())
 			}
 		})
 
 		It("Pull", func() {
-			for _, dep := range deps {
+			for _, dep := range srlt.Deps {
 				Ω(dep.Pull()).Should(BeNil())
 			}
 		})
 
 		It("Checkout", func() {
-			for _, dep := range deps {
+			for _, dep := range srlt.Deps {
 				Ω(dep.Checkout()).Should(BeNil())
 			}
 		})
@@ -35,18 +35,18 @@ var _ = Describe("Dependency", func() {
 
 	Describe("Snapshot", func() {
 
-		var newDeps map[string]Dependency
+		var newDeps map[string]*Dependency
 
 		It("Scan and find deps", func() {
-			_new, err := snapshot()
+			_new, err := snapshot(file, base, false, false)
 			Ω(err).Should(BeNil())
-			Ω(_new).Should(HaveLen(len(deps)))
+			Ω(_new).Should(HaveLen(len(srlt.Deps)))
 			newDeps = _new
 		})
 
 		It("Compare scanned and from file", func() {
 			for name, dep := range newDeps {
-				d, ok := deps[name]
+				d, ok := srlt.Deps[name]
 				Ω(ok).Should(BeTrue())
 				Ω(d.Name).Should(Equal(dep.Name))
 				Ω(d.Type).Should(Equal(dep.Type))
@@ -54,8 +54,8 @@ var _ = Describe("Dependency", func() {
 				Ω(d.Commit).Should(Equal(dep.Commit))
 			}
 		})
-
 	})
+
 	Describe("Validate", func() {
 		It("fixteres", func() {
 			var depsFixtures = []struct {

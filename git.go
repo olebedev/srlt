@@ -7,9 +7,8 @@ import (
 )
 
 func (d *Dependency) gitGetRemote() (string, error) {
-	basepath, _ := conf.String("basepath")
 	cmd := exec.Command("git", "remote", "-v")
-	cmd.Dir = path.Join(basepath, d.Name)
+	cmd.Dir = path.Join(d.base, d.Name)
 	out, err := cmd.Output()
 
 	if err != nil {
@@ -17,16 +16,15 @@ func (d *Dependency) gitGetRemote() (string, error) {
 	}
 
 	strArr := strings.Split(string(out), "\n")
-	str := strArr[len(strArr)-2]                      // last element is empty string
-	d.Remote = strings.TrimSpace(str[7 : len(str)-7]) // trim  origin https://github.com/olebedev/rest (pull)
+	str := strArr[len(strArr)-2]
+	d.Remote = strings.TrimSpace(str[7 : len(str)-7])
 
 	return d.Remote, nil
 }
 
 func (d *Dependency) gitGetCommit() (string, error) {
-	basepath, _ := conf.String("basepath")
 	cmd := exec.Command("git", "rev-parse", "HEAD")
-	cmd.Dir = path.Join(basepath, d.Name)
+	cmd.Dir = path.Join(d.base, d.Name)
 	out, err := cmd.Output()
 
 	if err != nil {
@@ -39,25 +37,22 @@ func (d *Dependency) gitGetCommit() (string, error) {
 }
 
 func (d *Dependency) gitClone() error {
-	basepath, _ := conf.String("basepath")
 	cmd := exec.Command("git", "clone", d.Remote, d.Name)
-	cmd.Dir = basepath
+	cmd.Dir = d.base
 	_, err := cmd.Output()
 	return err
 }
 
 func (d *Dependency) gitPull() error {
-	basepath, _ := conf.String("basepath")
 	cmd := exec.Command("git", "pull", "origin", "master")
-	cmd.Dir = path.Join(basepath, d.Name)
+	cmd.Dir = path.Join(d.base, d.Name)
 	_, err := cmd.Output()
 	return err
 }
 
 func (d *Dependency) gitCheckout() error {
-	basepath, _ := conf.String("basepath")
 	cmd := exec.Command("git", "checkout", d.Commit)
-	cmd.Dir = path.Join(basepath, d.Name)
+	cmd.Dir = path.Join(d.base, d.Name)
 	_, err := cmd.Output()
 	return err
 }

@@ -1,0 +1,37 @@
+base: ./src
+dependencies:
+  github.com/codegangsta/cli:
+    type: git
+    name: github.com/codegangsta/cli
+    remote: https://github.com/codegangsta/cli
+    commit: c31a7975863e7810c92e2e288a9ab074f9a88f29
+  github.com/fatih/color:
+    type: git
+    name: github.com/fatih/color
+    remote: https://github.com/fatih/color
+    commit: 9aae6aaa22315390f03959adca2c4d395b02fcef
+  github.com/mattn/go-colorable:
+    type: git
+    name: github.com/mattn/go-colorable
+    remote: https://github.com/mattn/go-colorable
+    commit: 3dac7b4f76f6e17fb39b768b89e3783d16e237fe
+  github.com/mattn/go-isatty:
+    type: git
+    name: github.com/mattn/go-isatty
+    remote: https://github.com/mattn/go-isatty
+    commit: 56b76bdf51f7708750eac80fa38b952bb9f32639
+  github.com/onsi/ginkgo:
+    type: git
+    name: github.com/onsi/ginkgo
+    remote: https://github.com/onsi/ginkgo
+    commit: b0135c67a250bf7b1dee86389d2ba4bf6a579407
+  github.com/onsi/gomega:
+    type: git
+    name: github.com/onsi/gomega
+    remote: https://github.com/onsi/gomega
+    commit: b9dac53b079b83a8c6e741b8a721bb5f8457f927
+  gopkg.in/yaml.v2:
+    type: git
+    name: gopkg.in/yaml.v2
+    remote: https://gopkg.in/yaml.v2
+    commit: f7716cbe52baa25d2e9b0d0da546fcf909fc16b4

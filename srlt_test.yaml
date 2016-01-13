@@ -1,0 +1,7 @@
+base: /var/folders/5l/vw_srr750bldj59t9xh6v6g40000gn/T/srlt153627424
+dependencies:
+  github.com/codegangsta/cli:
+    type: git
+    name: github.com/codegangsta/cli
+    remote: https://github.com/codegangsta/cli
+    commit: c31a7975863e7810c92e2e288a9ab074f9a88f29

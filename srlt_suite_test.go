@@ -1,35 +1,46 @@
 package main
 
 import (
-	"encoding/json"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"io/ioutil"
 	"os"
 	"path"
 
+	"gopkg.in/yaml.v2"
+
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
+
 	"testing"
 )
 
-var deps = make(map[string]Dependency)
-
-func TestBooks(t *testing.T) {
-	RegisterFailHandler(Fail)
-	tmpDir, _ := ioutil.TempDir(os.TempDir(), "srlt")
-	os.Setenv("BASEPATH", tmpDir)
+var file = func() string {
 	wd, _ := os.Getwd()
-	os.Setenv("FILE", path.Join(wd, "srlt_test.json"))
-	conf.Env()
-	initConf()
+	return path.Join(wd, "srlt_test.yaml")
+}()
 
-	// read the file
-	file, _ := conf.String("file")
+var base = func() string {
+	tmpDir, _ := ioutil.TempDir(os.TempDir(), "srlt")
+	return tmpDir
+}()
+
+var srlt = &Srlt{
+	Deps: make(map[string]*Dependency),
+	Base: base,
+}
+
+func TestSrlt(t *testing.T) {
+	RegisterFailHandler(Fail)
+
 	if buffer, err := ioutil.ReadFile(file); err == nil {
-		json.Unmarshal(buffer, &deps)
+		yaml.Unmarshal(buffer, srlt)
 	} else {
 		t.Error(err)
 	}
 
-	Ω(len(deps)).Should(BeNumerically(">", 0))
-	RunSpecs(t, "Clone Suite")
+	for _, d := range srlt.Deps {
+		d.base = base
+	}
+
+	Ω(len(srlt.Deps)).Should(BeNumerically(">", 0))
+	RunSpecs(t, "Srlt Suite")
 }

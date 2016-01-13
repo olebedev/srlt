@@ -8,9 +8,8 @@ import (
 
 func (d *Dependency) bzrGetRemote() (string, error) {
 
-	basepath, _ := conf.String("basepath")
 	cmd := exec.Command("bzr", "info")
-	cmd.Dir = path.Join(basepath, d.Name)
+	cmd.Dir = path.Join(d.base, d.Name)
 	out, err := cmd.Output()
 
 	if err != nil {
@@ -25,9 +24,8 @@ func (d *Dependency) bzrGetRemote() (string, error) {
 }
 
 func (d *Dependency) bzrGetCommit() (string, error) {
-	basepath, _ := conf.String("basepath")
 	cmd := exec.Command("bzr", "revno")
-	cmd.Dir = path.Join(basepath, d.Name)
+	cmd.Dir = path.Join(d.base, d.Name)
 	out, err := cmd.Output()
 
 	if err != nil {
@@ -40,25 +38,22 @@ func (d *Dependency) bzrGetCommit() (string, error) {
 }
 
 func (d *Dependency) bzrClone() error {
-	basepath, _ := conf.String("basepath")
 	cmd := exec.Command("bzr", "branch", d.Remote, d.Name)
-	cmd.Dir = basepath
+	cmd.Dir = d.base
 	_, err := cmd.Output()
 	return err
 }
 
 func (d *Dependency) bzrCheckout() error {
-	basepath, _ := conf.String("basepath")
 	cmd := exec.Command("bzr", "revert", "-r"+d.Commit)
-	cmd.Dir = path.Join(basepath, d.Name)
+	cmd.Dir = path.Join(d.base, d.Name)
 	_, err := cmd.Output()
 	return err
 }
 
 func (d *Dependency) bzrPull() error {
-	basepath, _ := conf.String("basepath")
 	cmd := exec.Command("bzr", "pull")
-	cmd.Dir = path.Join(basepath, d.Name)
+	cmd.Dir = path.Join(d.base, d.Name)
 	_, err := cmd.Output()
 	return err
 }
