@@ -1,4 +1,4 @@
-box: golang
+box: google/golang
 build:
   steps:
     - setup-go-workspace
