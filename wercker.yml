@@ -8,7 +8,7 @@ build:
         code: |
           cd $WERCKER_SOURCE_DIR
           go version
-          go get ./...
+          go get github.com/olebedev/srlt
           go get github.com/onsi/ginkgo
           go get github.com/onsi/gomega
     - script:

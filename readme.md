@@ -1,4 +1,4 @@
-# Simple Revision Locking Tool [![wercker status](https://app.wercker.com/status/16ab277aafad959b674654a1fbc3ce9e/s/ "wercker status")](https://app.wercker.com/project/bykey/16ab277aafad959b674654a1fbc3ce9e)
+# Simple Revision Locking Tool [![wercker status](https://app.wercker.com/status/2205aafe44b9890ae9483913d95ed689/s "wercker status")](https://app.wercker.com/project/bykey/2205aafe44b9890ae9483913d95ed689)
 
 Simple tool to snapshot and restore **state of all existing repositories** on the given path. It detects repositories of all famous VCS's(git/hg/bzr) and saves metadata about the repositories states to yaml the file. It will be enough to restore the state. That's it =)
 
