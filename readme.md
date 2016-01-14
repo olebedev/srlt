@@ -23,7 +23,7 @@ If you have Golang at your system, you may install `srlt` by `go get` tool:
 $ go get github.com/olebedev/srlt
 ```
 
-Or you may download already compiled binary file:
+Or you may download already compiled binary:
 
 ```
 $ # osx example
@@ -65,7 +65,7 @@ GLOBAL OPTIONS:
 
 As you can see, there is no way to get confused.
 
-To take a snapshot just type it:
+To take a snapshot just type:
 
 ```
 $ srlt shapshot
@@ -81,7 +81,7 @@ $ srlt --path=`$GOPATH/src` shapshot
 ```
 Srlt will save base path into the file and read them next time. No need to specify path any time.
 
-To restore type it:
+To restore type:
 
 ```
 $ srlt restore
