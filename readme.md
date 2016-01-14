@@ -89,13 +89,20 @@ $ srlt restore
 
 This will restore the state of repositories exactly as it was before. You will see operation log in stdout. If you don't have yet repositories at file system, they will be cloned as usual. It is possible to change path like in the previous example.
 
-As additional functioanality there is `exec` command that allow us to execute _bash_ one-liner with dependency context and templating. For example:
+As additional functioanality there is `exec` command that allow us to execute _bash_ one-liner with dependency context and templating. For example, run `go install` for each repo:
 
 ```
-$ srlt exec go install {{.Name}}
-$ # also available .Type, .Remote, .Commit
+$ srlt exec go install {{.Name}}/...
 ```
-Note the command will executed at base path(saved at the snapshot step).
+
+Or remove VCS's metadata:
+
+```
+$ srlt exec rm -rf {{.Name}}.{{.Type}}
+```
+
+Available: `.Name` `.Type`, `.Remote`, `.Commit`.  
+> Note the command will executed at base path(saved at the snapshot step).
 
 
 ### Welcome to contribute
