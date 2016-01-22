@@ -68,7 +68,7 @@ As you can see, there is no way to get confused.
 To take a snapshot just type:
 
 ```
-$ srlt shapshot
+$ srlt snapshot
 ```
 
 This commad save metadata about state of your current work directory to the `./srlt.yaml` file. It's easy to change this behavior using `path` flag:
@@ -98,7 +98,7 @@ $ srlt exec go install {{.Name}}/...
 Or remove VCS's metadata:
 
 ```
-$ srlt exec rm -rf {{.Name}}.{{.Type}}
+$ srlt exec rm -rf {{.Name}}/.{{.Type}}
 ```
 
 Available: `.Name` `.Type`, `.Remote`, `.Commit`.  
