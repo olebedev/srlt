@@ -98,7 +98,7 @@ $ srlt exec go install {{.Name}}/...
 Or remove VCS's metadata:
 
 ```
-$ srlt exec rm -rf {{.Name}}/.{{.Type}}
+$ srlt exec "rm -rf" {{.Name}}/.{{.Type}}
 ```
 
 Available: `.Name` `.Type`, `.Remote`, `.Commit`.  
