@@ -109,7 +109,7 @@ func restore(file string, verbose bool) error {
 		go func(dep *Dependency) {
 			defer wg.Done()
 			if err := dep.Install(); err != nil {
-				panic(err)
+				panic(fmt.Sprintf("error: %v\ndep: #-v", err, dep)
 			}
 		}(dep)
 	}
