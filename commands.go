@@ -14,13 +14,15 @@ import (
 )
 
 // save all dependency to file
-func snapshotAction(c *cli.Context) {
+func snapshotAction(c *cli.Context) error {
 	file := c.GlobalString("file")
 	file, err := filepath.Abs(file)
 	must(err)
 	bp := c.GlobalString("path")
 	verbose := c.GlobalBool("verbose")
 	snapshot(file, bp, true, verbose)
+
+	return nil
 }
 
 func snapshot(file, base string, force, verbose bool) (map[string]*Dependency, error) {
@@ -79,7 +81,7 @@ func snapshot(file, base string, force, verbose bool) (map[string]*Dependency, e
 	return srlt.Deps, nil
 }
 
-func restoreAction(c *cli.Context) {
+func restoreAction(c *cli.Context) error {
 	file := c.GlobalString("file")
 	file, err := filepath.Abs(file)
 	must(err)
@@ -87,6 +89,8 @@ func restoreAction(c *cli.Context) {
 	verbose := c.GlobalBool("verbose")
 
 	restore(file, verbose)
+
+	return nil
 }
 
 func restore(file string, verbose bool) error {
@@ -117,7 +121,7 @@ func restore(file string, verbose bool) error {
 	return nil
 }
 
-func execAction(c *cli.Context) {
+func execAction(c *cli.Context) error {
 	file := c.GlobalString("file")
 	file, err := filepath.Abs(file)
 	must(err)
@@ -125,6 +129,8 @@ func execAction(c *cli.Context) {
 	verbose := c.GlobalBool("verbose")
 	tmpl := strings.Join(c.Args(), " ")
 	execCommand(file, tmpl, verbose)
+
+	return nil
 }
 
 func execCommand(file, template string, verbose bool) {
