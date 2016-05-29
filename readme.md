@@ -13,7 +13,7 @@ This is a common situation that storage and distribution of external artifacts f
 - it deadly simple, only [three main commands](#usage)
 - to survive you need only know where is your ~~towel~~ file with dependencies
 - it is [binary distributed](https://github.com/olebedev/srlt/releases/), anyone can install and use it
-- it is stable and [well tested](https://app.wercker.com/project/bykey/16ab277aafad959b674654a1fbc3ce9e)
+- it is stable and [well tested](https://app.wercker.com/#applications/5695e51629aa0a56390d43b8)
 - there are no agreements to follow, feel free to organize you project dependencies
 
 ### Installation
