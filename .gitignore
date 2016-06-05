@@ -1,5 +1,3 @@
 srlt
-bin/
-pkg/
-src/
 build/
+vendor/github.com/onsi/
